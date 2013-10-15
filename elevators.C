@@ -8,6 +8,21 @@
 #include <stdlib.h>
 #include "building.h"
 #include "elevators.h"
+#include <vector>
+#include <queue>
+#include <semaphore.h>
+using namespace std;
+
+// A vector of Queues to store the passengers that want to go to a given floor
+
+typedef vector < queue<int> > QueueVector;
+
+struct passenger {
+  const Person *name;
+  int org, dest;
+  sem_t wait;
+};
+
 
 //
 // Elevator constructor
@@ -17,8 +32,8 @@ Elevator::Elevator()
 { 
   // This is the place to perform any one-time initializations of
   // per-elevator data.
+    
 }
-
 //
 // Elevator::display_passengers()
 //
@@ -42,11 +57,28 @@ int Elevator::display_passengers()
 //   run should never return.
 //   
 void Elevator::run()
-{
+{ 
   message("running");
-
+  if (door_is_open()){
+    close_door();
+  }
+  for (int m = 0; m<12; m++){
+    move_to_floor(m);
+    onfloor();
+    open_door();
+    close_door();
+    if (m==12)
+      m = 0;
+  }
+  /* while (origin < destination){
+    move_up();
+    origin++;
+    if (onfloor()){
+      open_door();
+    }
+    }*/
   // Pick up and drop off passengers.
-}
+};
 
 //
 //  take_elevator
@@ -56,7 +88,16 @@ void Elevator::run()
 //
 void take_elevator(const Person *who, int origin, int destination)
 {
+  QueueVector vector1[11];
+  for (int d = 0;d<12;d++){
+    if (destination == d){
+      vector1[d].push_back(*who);
+    }
+  }
+  //move_up();
+}
+
   // Should not return until the person has taken an elevator
   // to their destination floor.
-}
+;
 

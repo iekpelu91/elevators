@@ -41,7 +41,14 @@ class Elevator : public ElevatorMachinery {
 //    A Person (who) calls this function to take an elevator from their
 //    current floor (origin) to a different floor (destination).
 //
-void take_elevator(const Person *who, int origin, int destination);
-
+void take_elevator(const Person *who, int origin, int destination)
+//{
+  // move_up();
+  //}
+;
+/*{   while (origin <destination && destination < 12){
+    move_up();
+    }
+    }*/
 #endif
 
